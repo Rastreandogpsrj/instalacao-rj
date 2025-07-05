@@ -112,7 +112,7 @@
       const data = await response.json();
 
       const normalizar = str =>
-        str.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().replace(/\s+/g, " ").trim();
+        str.normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase().trim();
 
       const resultado = data.find(entry => normalizar(entry.bairro) === normalizar(bairroInput));
 
@@ -123,8 +123,7 @@
       beneficiosBox.style.display = "block";
 
       if (resultado) {
-        const valorNum = parseFloat(resultado.valor.replace(",", "."));
-        const valorInstalacao = valorNum * quantidade;
+        const valorInstalacao = parseFloat(resultado.valor.replace(",", ".")) * quantidade;
         popup.className = "sucesso";
         popup.innerHTML = `✅ Valor total da instalação: R$ ${valorInstalacao.toFixed(2).replace(".", ",")}`;
 
@@ -133,9 +132,9 @@
           const desconto = 49.90 * quantidade;
           mensalidadeBox.className = "sucesso";
           mensalidadeBox.innerHTML = `
-            📅 Mensalidade: R$ ${cheio.toFixed(2).replace(".", ",")}<br>
+            📅 Mensalidade: R$ ${cheio.toFixed(2)}<br>
             Pagando até a data do vencimento, você ganha um desconto:<br>
-            <strong>R$ ${desconto.toFixed(2).replace(".", ",")} mensais</strong>
+            <strong>R$ ${desconto.toFixed(2)} mensais</strong>
           `;
           beneficiosBox.className = "sucesso";
           beneficiosBox.innerHTML = `
@@ -152,7 +151,7 @@
         } else {
           const valorMensal = 39.90 * quantidade;
           mensalidadeBox.className = "sucesso";
-          mensalidadeBox.innerHTML = `📅 Mensalidade: <strong>R$ ${valorMensal.toFixed(2).replace(".", ",")} mensais</strong>`;
+          mensalidadeBox.innerHTML = `📅 Mensalidade: <strong>R$ ${valorMensal.toFixed(2)} mensais</strong>`;
           beneficiosBox.className = "sucesso";
           beneficiosBox.innerHTML = `
             ✨ Benefícios que você vai ter com a Rastreando GPS:<br><br>
@@ -165,7 +164,6 @@
             Clique no botão abaixo e agende logo sua instalação 👇
           `;
         }
-
       } else {
         popup.className = "erro";
         popup.innerHTML = `❌ Este bairro não foi encontrado.<br>📌 Verifique se você digitou corretamente o nome do bairro.`;
