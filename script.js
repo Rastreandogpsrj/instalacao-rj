@@ -7,15 +7,16 @@ async function verValor() {
   const data = await response.json();
 
   const normalizar = str =>
-    str.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().trim();
+    str.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().replace(/\s+/g, " ").trim();
 
-  const resultado = data.find(entry => normalizar(entry.bairro.trim()) === normalizar(input));
+  const resultado = data.find(entry => normalizar(entry.bairro) === normalizar(input));
 
   popup.style.display = "block";
   whatsapp.style.display = "block";
 
   if (resultado) {
-    popup.innerHTML = `✅ Sua instalação é apenas R$ ${resultado.valor}`;
+    const valor = resultado.valor.replace(",", "."); // garante que vírgula não quebre
+    popup.innerHTML = `✅ Sua instalação é apenas R$ ${parseFloat(valor).toFixed(2).replace(".", ",")}`;
   } else {
     popup.innerHTML = `❌ Este bairro não foi encontrado.<br>📌 Verifique se você digitou corretamente o nome do bairro.`;
   }
