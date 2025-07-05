@@ -3,7 +3,7 @@ async function verValor() {
   const popup = document.getElementById("popup");
   const whatsapp = document.getElementById("whatsapp");
 
-  const response = await fetch("https://instalacao-por-bairro-gps.vercel.app/bairros.json");
+  const response = await fetch("https://instalacao-por-bairro-gps.vercel.app/bairros-rj.json");
   const data = await response.json();
 
   const normalizar = str =>
